@@ -22,16 +22,12 @@ void clear() {
 
 void matrix() {
 	for (int i = 0; i < 10; i++) {
-			cout<<arr[0][i];
-			cout<<arr[1][i];
-			cout<<arr[2][i];
-			cout<<arr[3][i];
-			cout<<arr[4][i];
-			cout<<arr[5][i];
-			cout<<arr[6][i];
-			cout<<arr[7][i];
-			cout<<arr[8][i];
-			cout<<arr[9][i]<<endl;
+		int k = 0;
+		for (;k < 9; k++) {
+			cout<<arr[k][i];
+		}
+		k++;
+		cout<<arr[k][i]<<endl;
 	}
 }
 
