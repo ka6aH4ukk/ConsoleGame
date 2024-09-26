@@ -23,11 +23,10 @@ void clear() {
 void matrix() {
 	for (int i = 0; i < 10; i++) {
 		int k = 0;
-		for (;k < 9; k++) {
+		for (;k < 10; k++) {
 			cout<<arr[k][i];
 		}
-		k++;
-		cout<<arr[k][i]<<endl;
+		cout<<endl;
 	}
 }
 
@@ -39,7 +38,7 @@ int main(int argc, char *argv[])
 	
 	int x = 0;
 	int y = 0;
-	int c = 0;
+	char c = ' ';
 	int a = 0;
 	int xe = 9;
 	int ye = 9;
@@ -52,7 +51,9 @@ int main(int argc, char *argv[])
 	
 	matrix();
 	
-	for(;;) {
+	bool IsRunning = true;
+
+	while(IsRunning) {
 		clear();
 		matrix();
 		arr[xe][ye] = '0';
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
 		cout<<"letter: ";
 		cin>>c;
 		switch(c) {
-			case 1:
+			case 'a':
 				if ( x == 0) {
 					cout<<"nope";
 				}
@@ -99,7 +100,7 @@ int main(int argc, char *argv[])
 					x=x-1;
 				}
 				break;
-			case 2:
+			case 'd':
 				if (x == 9) {
 					cout<<"nope";
 				}
@@ -107,7 +108,7 @@ int main(int argc, char *argv[])
 					x=x+1;
 				}
 				break;
-			case 3:
+			case 'w':
 				if (y == 0) {
 					cout<<"nope";
 				}
@@ -115,7 +116,7 @@ int main(int argc, char *argv[])
 					y--;
 				}
 				break;
-			case 4:
+			case 's':
 				if (y == 9) {
 					cout<<"nope";
 				}
@@ -131,7 +132,7 @@ int main(int argc, char *argv[])
 		if (arr[x][y] == arr[xe][ye]) {
                         cout<<"САС";
                         cin>>a;
-                        break;
+                        IsRunning = false;
                 }
 	}
 }
