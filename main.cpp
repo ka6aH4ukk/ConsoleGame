@@ -1,29 +1,24 @@
 #include <iostream>
 using namespace std;
 
+char arr[10][10];
 
-	char arr[10][10] {
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'},
-				{'0', '0', '0', '0', '0', '0', '0', '0', '0', '0'}
-			};
-
-				
-void clear() {
-    cout << "\x1B[2J\x1B[H";
+int moving(int wll, int dirctn, int& axis) {
+	if (axis != wll) {
+		if (dirctn) {
+			axis++;
+		}
+		else {
+			axis--;
+		}
+	}
+	return axis;
 }
 
 void matrix() {
+	cout << "\x1B[2J\x1B[H";
 	for (int i = 0; i < 10; i++) {
-		int k = 0;
-		for (;k < 10; k++) {
+		for (int k = 0;k < 10; k++) {
 			cout<<arr[k][i];
 		}
 		cout<<endl;
@@ -33,107 +28,84 @@ void matrix() {
 int main(int argc, char *argv[])
 {
 	
-		
+	for (int j = 0; j < 10; j++) {
+		for (int p = 0; p < 10; p++) {
+			arr[j][p] = ':';
+		}
+	}
+
 	matrix();
-	
-	int x = 0;
-	int y = 0;
+
+	struct {
+		int x;
+		int y;
+	} player, enemy;
+
 	char c = ' ';
 	int a = 0;
-	int xe = 9;
-	int ye = 9;
 	int q = 0;
 	
-	arr[xe][ye] = '@';
-	arr[x][y] = '#';
+	player.x = 0;
+	player.y = 0;
+	enemy.x = 9;
+	enemy.y = 9;
 	
-	clear();
+	arr[enemy.x][enemy.y] = '@';
+	arr[player.x][player.y] = '#';
 	
 	matrix();
 	
 	bool IsRunning = true;
 
 	while(IsRunning) {
-		clear();
 		matrix();
-		arr[xe][ye] = '0';
+		arr[enemy.x][enemy.y] = ':';
 		
 		q++;
-		int rx = x - xe;
-		int ry = y - ye;
-		int irx = rx;
-		int iry = ry;
-		if (rx < 0) {
-			irx=rx*-1;
-		}
-		if (ry < 0) {
-			iry=ry*-1;
-		}
+		int diff_x = player.x - enemy.x;
+		int diff_y = player.y - enemy.y;
+		int i_diff_x = abs(diff_x);
+		int i_diff_y = abs(diff_y);
 		if (q%2 == 0) {
-			if (irx < iry) {
-				if (ry < 0) {
-					ye--;
+			if (i_diff_x < i_diff_y) {
+				if (diff_y < 0) {
+					enemy.y--;
 				}
 				else {
-					ye++;
+					enemy.y++;
 				}
 			}
 			else {
-				if (rx < 0) {
-					xe--;
+				if (diff_x < 0) {
+					enemy.x--;
 				}
 				else {
-					xe++;
+					enemy.x++;
 				}
 			}
 		}
 
-		arr[x][y] = '0';
+		arr[player.x][player.y] = ':';
 		cout<<"letter: ";
 		cin>>c;
 		switch(c) {
-			case 'a':
-				if ( x == 0) {
-					cout<<"nope";
-				}
-				else {
-					x=x-1;
-				}
+			case 'a': moving(0, 0, player.x);
 				break;
-			case 'd':
-				if (x == 9) {
-					cout<<"nope";
-				}
-				else {
-					x=x+1;
-				}
+			case 'd': moving(9, 1, player.x);
 				break;
-			case 'w':
-				if (y == 0) {
-					cout<<"nope";
-				}
-				else {
-					y--;
-				}
+			case 'w': moving(0, 0, player.y);
 				break;
-			case 's':
-				if (y == 9) {
-					cout<<"nope";
-				}
-				else {
-					y++;
-				}
-				break;
+			case 's': moving(9, 1, player.y);
 		}
 		
-		arr[xe][ye] = '@';
-		arr[x][y] = '#';
-		clear();
-		if (arr[x][y] == arr[xe][ye]) {
-                        cout<<"САС";
-                        cin>>a;
-                        IsRunning = false;
-                }
+		arr[enemy.x][enemy.y] = '@';
+		arr[player.x][player.y] = '#';
+		if (arr[player.x][player.y] == arr[enemy.x][enemy.y]) {
+			matrix();
+            cout<<"САС";
+            cin>>a;
+            IsRunning = false;
+        }
 	}
 }
 
